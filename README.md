@@ -88,7 +88,7 @@ Username: Call this what you want, I am going to call it "azureadmin".
 
 Password: Set this to something secure and long. 
 
-In the end, your page should look like this: 
+In the end, your page should look like this. Dont worry, we will apply some security rules to only allow your IP to RDP to these servers. 
 
 Part 1: 
 
@@ -97,6 +97,50 @@ Part 1:
 Part 2: 
 
 <img width="863" height="502" alt="image" src="https://github.com/user-attachments/assets/a74d42fd-b079-413f-884f-580bf8aad7ee" />
+
+At this stage, you can hit the "Review + Create" at the bottom and validate everything looks right. Azure will warn you that you will be exposing RDP to the internet. This is fine as this is just for testing. You would NEVER want to do this on a system, unless you know what you are doing. We are going to secure it after this step. For now, just click on "Create" 
+
+
+<img width="889" height="895" alt="image" src="https://github.com/user-attachments/assets/d1fdf0d8-a7ca-4d48-8117-6feb5f9a2249" />
+
+
+4. Secure the RDP port
+
+Now, we need to secure the RDP port we just opened up to the internet. To do this, go to the new VM you just created > Navigate to Networking > Network settings and find the inbound port rule that is open. 
+
+<img width="1877" height="881" alt="image" src="https://github.com/user-attachments/assets/c041fe2a-3b24-45c3-93f7-02ed1c9aec22" />
+
+Click on the RDP name and for the source just select the option "My IP Address" as this will use your IP as the source. This is what we want. We want to be the only ones who can connect to this server via RDP. Nobody else. 
+
+Leave everything else as default and just click on save at the bottom. 
+
+
+Now that you have created the Domain Controller VM, lets create the Windows 11 VM now. 
+
+
+Go back to Virtual Machine creation and now select "Windows 11 Pro". Create your user account for it and leave everything else as default. Its going to be very similar to how you just setup the Domain Controller from the first walkthrough. 
+
+<img width="784" height="840" alt="image" src="https://github.com/user-attachments/assets/51fb9b67-3820-44b2-82d4-d7f78cd0aac4" />
+
+
+Once you have done the first page, navigate over to the Networking tab and click on Virtual Network. Select the same Virtual Network that your Domain Controller is on, so these two devices can talk to one another. Do the same for the subnet right below it as well. 
+
+<img width="934" height="514" alt="image" src="https://github.com/user-attachments/assets/2327ff15-f5af-4ca3-8b3b-08cc81619840" />
+
+
+Next, click on "Review + Create" and then Create at the bottom to create the VM. 
+
+
+<img width="883" height="895" alt="image" src="https://github.com/user-attachments/assets/877d3bb3-bab3-49a9-b4aa-717de5ca065a" />
+
+
+Now, just like the server, we need to secure this RDP port as well. Simply do the exact same steps as you did for the servers RDP port security and that is it for this portion in creating the VMs. 
+
+
+
+
+
+
 
 
 
