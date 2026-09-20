@@ -139,9 +139,110 @@ Now, just like the server, we need to secure this RDP port as well. Simply do th
 
 
 
+5. Testing access to nodes
+
+Before we continue, we need to make sure we can RDP to both assets now. To do this, simply go to "Virtual Machines" again and you will see both of your VMs in a running state. You will also see their public IP address as well. This is the IP we need to RDP to. 
+
+<img width="883" height="895" alt="image" src="https://github.com/user-attachments/assets/1c78a02c-c6ce-4962-a016-598907bbd22c" />
+
+On your local machine, open up RDP and type in the public IP address for each of the computers. 
+
+<img width="661" height="345" alt="image" src="https://github.com/user-attachments/assets/b9c63d84-8e68-4f47-8a22-025abd1a5c6e" />
+
+Login in to them and run updates to ensure they are on the latest updates.
+
+Here we can see the server is updated to the latest. I have checked the Win11 computer and it is updated as well. 
+
+<img width="583" height="528" alt="image" src="https://github.com/user-attachments/assets/e638b869-0fb8-43d3-9269-fc61c31099a8" />
+
+
+After you have used RDP to get to the servers and updated them, the next test we need to do is to ensure they can ping on another. Simply go to each VM and run ping to see if you can ping the other device. 
+
+To find the IP of your two VM's, simply navigate to the virtual machine and find where you see "Private IP Address" 
+
+<img width="1309" height="846" alt="image" src="https://github.com/user-attachments/assets/4294626e-ca92-4987-9177-c82111d68f90" />
+
+
+
+Cant connect to the Win11 VM? 
+
+You might not be able to RDP to your Win11 VM. This is due to the Windows Firewall. I had to go to the "Run Command" Feature in the VM to see if the firewall rule was enabled. As you can see, its set to FALSE. I need to switch this to enabled, so I can connect to the VM. Usually with a fresh build of Win11 the built-in firewall rule is disabled or unconfigured until RDP is explicitly turned on. 
+
+<img width="1279" height="892" alt="image" src="https://github.com/user-attachments/assets/43a159f1-8232-4d73-a693-bc561779a7f3" />
+
+Navigate to the Run Command option > Select "RunPowerShellScript" and then paste this script to see if your firewall rules say False as well: 
+
+PS - Get-NetFirewallRule | Select-Object Name, DisplayName, DisplayGroup, Enabled
+
+If it says False, you need to run this: 
+
+PS - Enable-NetFirewallRule -DisplayGroup "Remote Desktop"
+
+Re-Check your firewall rules now using Get-NetFirewallRule -DisplayGroup "Remote Desktop". Notice how its set to True now. 
+
+<img width="823" height="902" alt="image" src="https://github.com/user-attachments/assets/e257cb1b-e2e9-4e46-bc0b-1d720eafa604" />
+
+
+Now test RDP again to the VM and you should be able to get access this time. I am able to successfully RDP to the Win11 VM
+
+
+<img width="1636" height="925" alt="image" src="https://github.com/user-attachments/assets/1c584c81-1b9b-4af6-ba39-85b6c2305cde" />
+
+
+
+Now, getting back to testing Ping from both machines to ensure they can talk with one another. 
+
+As we can see, the DC1 is not able to ping the Win11 computer 
+
+<img width="2816" height="852" alt="image" src="https://github.com/user-attachments/assets/0267caac-a413-4085-b7af-1196422bcd24" />
+
+We now need to allow ping in the firewall on the Win11 side and the Domain controller. To do this, simply run this PowerShell script in both computers to make this go by quicker. 
+
+PS - Enable-NetFirewallRule -Name "CoreNet-Diag-ICMP4-EchoRequest-In"
+
+I can now ping the Win11 VM and it can ping the server
+
+
+DC -> Win11 ping: 
+
+<img width="493" height="207" alt="image" src="https://github.com/user-attachments/assets/98f59019-7227-4c9b-804c-84c818953b4c" />
+
+Win11 -> DC1 ping: 
+
+<img width="1344" height="708" alt="image" src="https://github.com/user-attachments/assets/fff829c7-cf12-44c0-8f33-cec9be661b01" />
 
 
 
 
+Perfect, now both machines can ping each other. The next step is to create AD on the domain controller. 
 
+
+6. Creating AD on a domain controller
+
+RDP to your domain controller VM that you created. Once in, go to "Manage" at the top right, then click on "Add Roles and Features" 
+
+<img width="1344" height="708" alt="image" src="https://github.com/user-attachments/assets/bb815fef-5e22-4619-879b-15752815c0b2" />
+
+From here, click Next at the bottom
+
+<img width="862" height="596" alt="image" src="https://github.com/user-attachments/assets/58b6d96a-2a6a-4815-babd-5528318a5be5" />
+
+
+Click on "Role-based or feature-based installation" then click Next at the bottom. 
+
+
+<img width="961" height="610" alt="image" src="https://github.com/user-attachments/assets/71538e4b-d9f4-4b82-978f-86d425b32a11" />
+
+
+Leave everything selected for the destination server and just click on Next 
+
+
+<img width="1029" height="678" alt="image" src="https://github.com/user-attachments/assets/2cd02e4d-c74e-4501-ae64-b3cfdd41313f" />
+
+From here, select "Active Directory Domain Services" AND "DNS Server". Select add features for both. 
+
+AD: 
+<img width="956" height="604" alt="image" src="https://github.com/user-attachments/assets/d0faabd6-94d5-4fa5-adc0-0f88a435d68f" />
+
+DNS: 
 
