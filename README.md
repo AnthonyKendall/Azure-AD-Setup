@@ -22,7 +22,8 @@ First, you need to utilize the free trial version of Azure as it is offered to y
 <img width="1825" height="801" alt="image" src="https://github.com/user-attachments/assets/e4c80d8b-a710-48be-a671-e8a215a21391" />
 
 
-2. Create a Resource group
+
+Create a Resource group
 
 Now we need to create a resource group, which is a container, so everything has a home and is easier to manage permissions, apply policies and keep track of cost. 
 
