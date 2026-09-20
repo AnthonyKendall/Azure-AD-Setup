@@ -23,7 +23,7 @@ First, you need to utilize the free trial version of Azure as it is offered to y
 
 
 
-Create a Resource group
+2. Create a Resource group
 
 Now we need to create a resource group, which is a container, so everything has a home and is easier to manage permissions, apply policies and keep track of cost. 
 
