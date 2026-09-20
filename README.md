@@ -212,6 +212,28 @@ Win11 -> DC1 ping:
 <img width="1344" height="708" alt="image" src="https://github.com/user-attachments/assets/fff829c7-cf12-44c0-8f33-cec9be661b01" />
 
 
+Side note: We will have to assign a static IP to the Domain Controller before proceeding. To do this, we need to statically set the IP in Azure. 
+
+Go to the Domain Controller VM > Networking > Network Settings > Network Interface 
+
+<img width="1851" height="850" alt="image" src="https://github.com/user-attachments/assets/cd1e11bf-4984-419b-99df-b43019c28c1a" />
+
+From here, click on "ipconfig1" at the bottom 
+
+<img width="1488" height="756" alt="image" src="https://github.com/user-attachments/assets/a95c396e-273d-4c1b-ad7d-103b76f0b7a2" />
+
+Then click on "Static" under Private IP Address settings
+
+<img width="572" height="503" alt="image" src="https://github.com/user-attachments/assets/976a80e0-b077-4992-9603-b507955b5bc6" />
+
+
+Keep the IP that its on or change it. Its up to you for this portion. Once you have the IP, just click on Save at the bottom. 
+
+Once you save the settings, restart your Domain Controller VM. 
+
+From here, we can now continue on with setting up AD for the domain controller. 
+
+
 
 
 Perfect, now both machines can ping each other. The next step is to create AD on the domain controller. 
@@ -242,7 +264,63 @@ Leave everything selected for the destination server and just click on Next
 From here, select "Active Directory Domain Services" AND "DNS Server". Select add features for both. 
 
 AD: 
+
 <img width="956" height="604" alt="image" src="https://github.com/user-attachments/assets/d0faabd6-94d5-4fa5-adc0-0f88a435d68f" />
 
 DNS: 
+
+<img width="553" height="468" alt="image" src="https://github.com/user-attachments/assets/6dbbd66c-c326-4f30-99fd-9e2fa3b0e97b" />
+
+You will get a Pop up stating that there is no static IP detected. You can ignore this as we statically assigned the IP in Azure. Just click on continue. 
+
+<img width="681" height="486" alt="image" src="https://github.com/user-attachments/assets/1a83ee71-5fca-4a21-89b2-2b26b544d90c" />
+
+
+Click Next for the rest of everything until you get to the end of the page for "Confirm installation selections". Once here, double check everything and then click Install: 
+
+
+<img width="825" height="599" alt="image" src="https://github.com/user-attachments/assets/53ce1a5a-bc5d-40e8-8433-48f836a940b3" />
+
+
+When the install is finish, we want to hit "Promote to a domain controller" 
+
+<img width="803" height="582" alt="image" src="https://github.com/user-attachments/assets/b3a92c6b-4b31-4334-b69c-aefe0529fbd8" />
+
+
+From here, select "Add a new forest" and type the domain name you want it to be. For me I will do Astra.local 
+
+<img width="959" height="679" alt="image" src="https://github.com/user-attachments/assets/0653063d-38f1-40b8-846b-c3b62b3fb08a" />
+
+Click next and leave everything default here. Just set a password for DSRM
+
+<img width="918" height="696" alt="image" src="https://github.com/user-attachments/assets/18774d04-cea4-41c8-a2b1-453c03dd2c42" />
+
+
+Click next on the DNS options and just skip that. 
+
+Next, wait for the NETBIOS name to appear. Once it appears, click on next 
+
+
+<img width="964" height="656" alt="image" src="https://github.com/user-attachments/assets/117f20ff-605c-4618-8ba1-983c53b4b043" />
+
+
+Leave the Paths section as default and just hit next. 
+
+Click on next for the review options section as well 
+
+
+Make sure prerequisite checks pass and then click on install 
+
+
+<img width="1075" height="748" alt="image" src="https://github.com/user-attachments/assets/d1156271-4996-450b-b5d8-e4b76815a2ca" />
+
+
+The server will reboot after this. After its done rebooting, RDP back into the server. You will notice the domain name is now appended to the end of the hostname. 
+
+<img width="406" height="409" alt="image" src="https://github.com/user-attachments/assets/367f8762-d27b-4231-a8c3-8f831da7fcb7" />
+
+
+Okay, now that we are back in the server, we need to 
+
+
 
