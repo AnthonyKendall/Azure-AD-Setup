@@ -15,3 +15,9 @@ The objective is to setup a Cloud infrastructure using Azure, to create a domain
 
 
 1. Setup a Azure account for FREE 
+
+First, you need to utilize the free trial version of Azure as it is offered to you. Simply navigate to this link and click on "Try Azure for free" https://azure.microsoft.com/en-us/pricing/purchase-options/azure-account?ref=www.google.com&hasfullconsent=true
+
+
+<img width="1825" height="801" alt="image" src="https://github.com/user-attachments/assets/e4c80d8b-a710-48be-a671-e8a215a21391" />
+
