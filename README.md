@@ -321,7 +321,132 @@ The server will reboot after this. After its done rebooting, RDP back into the s
 <img width="406" height="409" alt="image" src="https://github.com/user-attachments/assets/367f8762-d27b-4231-a8c3-8f831da7fcb7" />
 
 
-Okay, now that we are back in the server, we need to 
+Okay, now that we are back in the server, we need to setup the Reverse Lookup Zones in the DNS section of the domain controller. This allows a reverse DNS lookup instead of the default name to IP this will allow IP to name. 
+
+So when you are back in the server manager, click on "Tools" at the top right of the page then click on DNS
+
+
+<img width="1914" height="703" alt="image" src="https://github.com/user-attachments/assets/35100ab0-002c-4f2b-b370-20a25becda5a" />
+
+
+Once in DNS, click on the drop down of the server icon and right click on reverse lookup zones and click on "New Zone" 
+
+
+<img width="782" height="551" alt="image" src="https://github.com/user-attachments/assets/440cdc9d-209e-460b-bdfa-c5bc341d5672" />
+
+
+
+From here, click on Next 
+
+
+<img width="620" height="469" alt="image" src="https://github.com/user-attachments/assets/586123c4-2201-4605-a980-ce4fc06cf800" />
+
+
+Keep the settings on default for this section 
+
+<img width="586" height="435" alt="image" src="https://github.com/user-attachments/assets/4150a33e-3088-4cec-b91c-aedd0431c053" />
+
+
+Keep the default settings for this section as well 
+
+<img width="602" height="458" alt="image" src="https://github.com/user-attachments/assets/bfa6620a-4ef3-46ac-a251-886789451f87" />
+
+Select IPv4 and click next 
+
+<img width="544" height="434" alt="image" src="https://github.com/user-attachments/assets/7e18dab9-285d-4142-b17d-7c45ed264ade" />
+
+
+From here, enter the static IP you have for the server. In my case, its 172.16.0 and as you can see on the bottom, its reversing the order. This is what we want. 
+
+<img width="567" height="420" alt="image" src="https://github.com/user-attachments/assets/2d4ed446-0e60-4f02-9b03-8ed977f5cebb" />
+
+From here, keep the default selected and click next 
+
+<img width="605" height="423" alt="image" src="https://github.com/user-attachments/assets/ed7bcdd0-a695-4e7a-affd-44a8c10b5a59" />
+
+Click on finish 
+
+<img width="577" height="457" alt="image" src="https://github.com/user-attachments/assets/28f1d4ef-db39-4b4a-825d-b4c7deb5abdc" />
+
+Reverse Lookup should now be running 
+
+<img width="1005" height="301" alt="image" src="https://github.com/user-attachments/assets/1593df82-5655-4233-870f-c86a0d0796ef" />
+
+
+Now lets test it to make sure a reverse DNS can be made. 
+
+As you can see, when doing a forward DNS lookup and a reverse DNS lookup we get an answer back for both. 
+
+<img width="737" height="472" alt="image" src="https://github.com/user-attachments/assets/16c003b3-8f01-4a9a-9351-e604a7d79a14" />
+
+
+7. Joining the Win11 to the domain
+
+First, since we configured the Domain controller to be a DNS server, we need to put its private IP into the win11 computers DNS records. 
+
+Go back to Azure and then go to "Virtual Network" in the search bar
+
+<img width="523" height="473" alt="image" src="https://github.com/user-attachments/assets/d6f44e05-1445-4e99-a38d-28acf606362c" />
+
+From here select the vNET that your domain controller and Win11 machine is running. In my case, I have only the one option which is what you want to see. 
+
+<img width="1077" height="328" alt="image" src="https://github.com/user-attachments/assets/694c932e-a3b3-42c6-9faf-eb1bdcf760e7" />
+
+Click on the vnet that you see and navigate to DNS then click on change under DNS Server 
+
+<img width="1244" height="793" alt="image" src="https://github.com/user-attachments/assets/cad291a4-6f24-4879-9337-055b36e297e8" />
+
+Select custom and put the IP address of the Domain Controller IP in. So in my case, I will put 172.16.0.4 in 
+
+<img width="578" height="565" alt="image" src="https://github.com/user-attachments/assets/207b25d0-a9ff-4c40-a1c1-cebbf9a9a74e" />
+
+Once you click save restart both VM's 
+
+After both VM's have been rebooted. RDP back to both of them. When in the Win11 computer, run ipconfig /all to see if the DNS server has been changed. In my case, we can see the DNS Server IP is now pointing to my domain controller IP 
+
+<img width="1342" height="764" alt="image" src="https://github.com/user-attachments/assets/181f2ba6-c3dd-4a4f-89d0-8d72fa639bb7" />
+
+Now that the DNS server is setup on the Win11 computer, lets join it to the domain. 
+
+First, click on the windows start button then go to system. From here, scroll all the way down until you find "About" 
+
+<img width="1314" height="983" alt="image" src="https://github.com/user-attachments/assets/6b02ed92-7a38-453b-8552-bf70bfd40b89" />
+
+When in the About section, scroll down until you see "Advanced system settings" 
+
+<img width="874" height="528" alt="image" src="https://github.com/user-attachments/assets/c55dcb3e-12b7-4323-a908-15ff661314d5" />
+
+Then navigate to "Computer Name" then click on "Change"
+
+<img width="498" height="529" alt="image" src="https://github.com/user-attachments/assets/0d3e8d81-6140-4a5b-aa1c-472e62295e85" />
+
+Once you click on Change, then select the bubble icon Domain 
+
+<img width="449" height="508" alt="image" src="https://github.com/user-attachments/assets/7a282f63-20f2-4280-9cf8-dcd7f0d12628" />
+
+Fill in the domain named you created 
+
+<img width="450" height="523" alt="image" src="https://github.com/user-attachments/assets/681ada03-0fc5-4662-b9a2-3f8cde5be55c" />
+
+You will then be prompted to enter credentials from that domain to add this computer. Simply put in your azureadmin creds from the server and you will then be prompted with a "Welcome to the astra.local" domain. Your computer will want to restart as well when you click on close. Just let is restart. 
+
+
+<img width="323" height="182" alt="image" src="https://github.com/user-attachments/assets/444ef758-2a0b-492c-a1c9-519231c90bd0" />
+
+After the computer is domain joined, we simply navigate back to the domain controller and verify we see the VM in the computer group object list in Active Directory users and computers. 
+
+<img width="886" height="511" alt="image" src="https://github.com/user-attachments/assets/c120b4dd-01e0-47e4-9280-d050783b233d" />
+
+Once you are in Active Directory, navigate to the Computers object, then you will see your VM added to the domain. 
+
+<img width="890" height="609" alt="image" src="https://github.com/user-attachments/assets/c6c18012-2a28-4f27-824b-91b7a5a0de2f" />
+
+
+From here, you can push GPOs to the device, create a user object and sign in on that VM with, etc.. 
+
+
+
+This concludes setting up an Azure AD environment in the cloud. 
 
 
 
